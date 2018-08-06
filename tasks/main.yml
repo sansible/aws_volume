@@ -1,0 +1,14 @@
+---
+
+- name: "Ensure EBS volume {{ sansible_aws_volume_name }}{{ sansible_aws_volume_id }}"
+  cloudformation:
+    stack_name: "{{ sansible_aws_volume_name }}{{ sansible_aws_volume_id }}-volume"
+    state: "{{ sansible_aws_volume_state }}"
+    template: "{{ role_path }}/files/volume.yml"
+    template_parameters:
+      ZoneIndex: "{{ sansible_aws_volume_zonde_index }}"
+    tags: "{{ sansible_aws_volume_stack_tags | combine({
+      'Description': sansible_aws_volume_name + sansible_aws_volume_id + ' volume',
+      'Name': sansible_aws_volume_name + sansible_aws_volume_id + '-volume'
+    }) }}"
+  register: sansible_aws_volume_data

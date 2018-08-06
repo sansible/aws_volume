@@ -1,0 +1,48 @@
+---
+
+Description: Volume
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  Size:
+    Default: 64
+    Description: Size for the created volumes
+    Type: String
+
+  VolumeType:
+    Default: gp2
+    Type: String
+
+  ZoneIndex:
+    Description: Zone index (Id modulo number of AZs)
+    Type: Number
+    Default: "0"
+
+Mappings:
+  # The "Ref" function always returns "String" but we need Integer for Fn::Select
+  Numbers:
+    Int:
+      "0": 0
+      "1": 1
+      "2": 2
+      "3": 3
+      "4": 4
+      "5": 5
+      "6": 6
+
+Resources:
+  Volume:
+    Type: AWS::EC2::Volume
+    DeletionPolicy: Snapshot
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - Fn::FindInMap: [ Numbers, Int, !Ref ZoneIndex ]
+          - Fn::GetAZs: ""
+      Size: !Ref Size
+      VolumeType: !Ref VolumeType
+
+Outputs:
+  Volume:
+    Description: Volume ID
+    Value: !Ref Volume

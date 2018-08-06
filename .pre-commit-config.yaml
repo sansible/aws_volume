@@ -1,0 +1,20 @@
+---
+
+- repo: https://github.com/willthames/ansible-lint.git
+  sha: v3.4.21
+  hooks:
+    - id: ansible-lint
+      types: [yaml]
+      exclude: >
+        (?x)^(
+          \.travis\.yml|
+          files/.*
+        )$
+    - id: ansible-lint
+      files: \.travis\.yml
+      args: [-x, ANSIBLE0008]
+
+- repo: git://github.com/pre-commit/pre-commit-hooks
+  sha: v1.2.3
+  hooks:
+    - id: trailing-whitespace

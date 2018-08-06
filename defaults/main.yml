@@ -1,0 +1,7 @@
+---
+
+sansible_aws_volume_id: 1
+sansible_aws_volume_name: ~
+sansible_aws_volume_stack_tags: {}
+sansible_aws_volume_state: present
+sansible_aws_volume_zonde_index: 1
